@@ -1,4 +1,5 @@
 import os
+import re
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 INPUT_DIR = os.path.join(PROJECT_ROOT, "input")
@@ -28,15 +29,10 @@ def main():
         for id in range(id_from, id_to + 1):
             id_s = str(id)
 
-            if len(id_s) % 2 != 0:
-                continue
+            match = re.search(r"^(\d+)\1+$", id_s)
 
-            half = int(len(id_s) / 2)
-            first_half = id_s[:half]
-            second_half = id_s[half:]
-
-            if first_half == second_half:
-                sub_result.append(id)
+            if match:
+                sub_result.append(int(match.group(0)))
 
         if sub_result:
             print(f"{id_str} has invalid IDs: {sub_result}")
